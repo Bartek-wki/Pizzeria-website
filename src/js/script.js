@@ -64,7 +64,7 @@
 
       thisProduct.initAccordion();
 
-      thisProduct.InitOrderForm();
+      thisProduct.initOrderForm();
 
       thisProduct.processOrder();
 
@@ -101,6 +101,7 @@
       //console.log(thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       //console.log(thisProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion() {
@@ -129,7 +130,7 @@
       });
     }
 
-    InitOrderForm() {
+    initOrderForm() {
       const thisProduct = this;
       //console.log(thisProduct);
 
@@ -172,30 +173,44 @@
           console.log(optionId, option);
 
           // check if optionId is selected
-          if (formData[paramId] && formData[paramId].includes(optionId)) {
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+          if (optionSelected) {
             console.log('select');
 
             // check if option is default, if it is do nothing, if it isn't increase price
-            if (option.default == true) {
-              console.log('true');
-            } else {
-              console.log('false');
+            if (!option.default) {
               price += option.price;
             }
           } else {
-            console.log('unselect');
-
             // check if option is default, if it is reduce price, if it isn't do nothing
-            if (option.default == true) {
+            if (option.default) {
               price -= option.price;
+            }
+          }
+          // update calculated price in the HTML
+          thisProduct.priceElem.innerHTML = price;
+          
+          // make selector .paramId-optionId
+          const imageSelector = '.' + paramId + '-' + optionId;
+          console.log(imageSelector);
+
+          // find image with selector .paramId-optionId
+          const image = thisProduct.imageWrapper.querySelector(imageSelector);
+          console.log(image);
+
+          // Check if image is in imageWrapper
+          if (image) {
+
+            // Check if optionId is selected. If it is add class 'active', if it isn't remove class 'active'
+            if (optionSelected) {
+              image.classList.add(classNames.menuProduct.imageVisible);
+            } else {
+              image.classList.remove(classNames.menuProduct.imageVisible);
             }
           }
         }
       }
-
-      // update calculated price in the HTML
-      thisProduct.priceElem.innerHTML = price;
-    
     }
   }
 
