@@ -43,8 +43,8 @@
   const settings = {
     amountWidget: {
       defaultValue: 1,
-      defaultMin: 1,
-      defaultMax: 9,
+      defaultMin: 0,
+      defaultMax: 10,
     }
   };
 
@@ -65,6 +65,8 @@
       thisProduct.initAccordion();
 
       thisProduct.initOrderForm();
+
+      thisProduct.initAmountWidget();
 
       thisProduct.processOrder();
 
@@ -96,12 +98,13 @@
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       //console.log(thisProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
-      console.log(thisProduct.formInputs);
+      //console.log(thisProduct.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       //console.log(thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       //console.log(thisProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
 
     initAccordion() {
@@ -116,8 +119,8 @@
 
         /* find active product (product that has active class) */
         const activeProduct = document.querySelector(select.all.menuProductsActive);
-        console.log(activeProduct);
-        console.log(thisProduct.element);
+        //console.log(activeProduct);
+        //console.log(thisProduct.element);
 
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
@@ -156,7 +159,7 @@
       //console.log(thisProduct);
 
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
+      //console.log('formData', formData);
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -165,18 +168,18 @@
       for (let paramId in thisProduct.data.params) {
         // determine param value, e.q. paramId= 'toppings', param = {label: 'Toppings...}
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
+        //console.log(paramId, param);
 
         // for every option in this category
         for (let optionId in param.options) {
           const option = param.options[optionId];
-          console.log(optionId, option);
+          //console.log(optionId, option);
 
           // check if optionId is selected
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
 
           if (optionSelected) {
-            console.log('select');
+            //console.log('select');
 
             // check if option is default, if it is do nothing, if it isn't increase price
             if (!option.default) {
@@ -187,17 +190,14 @@
             if (option.default) {
               price -= option.price;
             }
-          }
-          // update calculated price in the HTML
-          thisProduct.priceElem.innerHTML = price;
-          
+          }        
           // make selector .paramId-optionId
           const imageSelector = '.' + paramId + '-' + optionId;
-          console.log(imageSelector);
+          //console.log(imageSelector);
 
           // find image with selector .paramId-optionId
           const image = thisProduct.imageWrapper.querySelector(imageSelector);
-          console.log(image);
+          //console.log(image);
 
           // Check if image is in imageWrapper
           if (image) {
@@ -211,13 +211,93 @@
           }
         }
       }
+
+      // multiply price by amount
+      price *= thisProduct.amountWidget.value;
+      console.log(thisProduct.amountWidget.value);
+      console.log(price);
+      // update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;
+    }
+
+    initAmountWidget() {
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function () {
+        thisProduct.processOrder();
+      });
+    }
+  }
+
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+
+      console.log('AmountWidget:', thisWidget);
+      console.log('constructor arguments:', element);
+
+      thisWidget.getElements(element);
+      
+      thisWidget.setValue(settings.amountWidget.defaultValue);
+  
+      thisWidget.initActions();
+    }
+
+    getElements(element) {
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+
+    setValue(value) {
+      const thisWidget = this;
+      const newValue = parseInt(value);
+
+      /* TODO: Add validation */
+
+      if (thisWidget.value !== newValue && !isNaN(newValue) && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
+        thisWidget.value = newValue;
+      }
+
+      thisWidget.announce();
+      thisWidget.input.value = thisWidget.value;
+    }
+
+    initActions() {
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', function () {
+        thisWidget.setValue(thisWidget.input.value);
+      });
+
+      thisWidget.linkDecrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value-1);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value+1);
+      });
+    }
+
+    announce() {
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
+
     }
   }
 
   const app = {
     initMenu: function () {
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      //console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
@@ -242,5 +322,6 @@
       thisApp.initMenu();
     },
   };
+
   app.init();
 }
