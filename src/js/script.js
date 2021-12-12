@@ -509,15 +509,15 @@
       const thisCart = this;
       const url = settings.db.url + '/' + settings.db.orders;
 
-      const payload = {};
-
-      payload.address = thisCart.dom.address.value;
-      payload.phone = thisCart.dom.phone.value;
-      payload.subtotalPrice = thisCart.subtotalPrice;
-      payload.totalPrice = thisCart.totalPrice;
-      payload.totalNumber = thisCart.totalNumber;
-      payload.deliveryFee = thisCart.deliveryFee;
-      payload.products = [];
+      const payload = {
+        address: thisCart.dom.address.value,
+        phone: thisCart.dom.phone.value,
+        subtotalPrice: thisCart.subtotalPrice,
+        totalPrice: thisCart.totalPrice,
+        totalNumber: thisCart.totalNumber,
+        deliveryFee: thisCart.deliveryFee,
+        products: []
+      };
 
       for (let prod of thisCart.products) {
         payload.products.push(prod.getData());
