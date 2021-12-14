@@ -81,6 +81,7 @@
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
     cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
+    login: Handlebars.compile(document.querySelector('#template-login').innerHTML),
   };
 
   class Product{
@@ -662,6 +663,36 @@
       thisApp.cart = new Cart(cartElem);
     },
 
+    initLogin: function () {
+      const loginForm = templates.login();
+      document.querySelector('body').innerHTML = loginForm;
+
+      const login = document.querySelector('#loginButton');
+      login.addEventListener('click', function () {
+        const login = document.querySelector('#login').value;
+        const password = document.querySelector('#password').value;
+
+        const checkLogin = window.localStorage.getItem(login);
+
+        if (!checkLogin) {
+          alert('uzytkownik nie istnieje');
+        } else if (checkLogin == password) {
+          window.localStorage.setItem('zalogowany', login);
+          window.location.reload();
+        } else {
+          alert('bledne dane');
+        }
+      });
+
+      const register = document.querySelector('#registerButton');
+      register.addEventListener('click', function () {
+        const login = document.querySelector('#login').value;
+        const password = document.querySelector('#password').value;
+
+        window.localStorage.setItem(login, password);
+      });
+    },
+
     init: function(){
       const thisApp = this;
       console.log('*** App starting ***');
@@ -672,6 +703,12 @@
 
       thisApp.initData();
       thisApp.initCart();
+      
+      const isLogged = window.localStorage.getItem('zalogowany');
+
+      if (!isLogged) {
+        thisApp.initLogin();
+      }
     },
   };
 
