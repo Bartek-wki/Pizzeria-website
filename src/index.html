@@ -7,6 +7,10 @@
   <title>Pizzeria</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link rel="stylesheet" href="vendor/range-slider.min.css">
+  <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -20,6 +24,7 @@
         </div>
 
         <div class="main-nav">
+          <a href="#home">Home</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
@@ -62,6 +67,9 @@
   </header>
 
   <div id="pages">
+    <section id="home">
+      <div class="home-wrapper container"></div>
+    </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
@@ -216,7 +224,7 @@
                <a class="btn-quantity" href="#more"><i class="fas fa-plus"></i></a>
              </div>
            </label>
-           <div> <!-- option-row -->
+           <div id="starters"> <!-- option-row -->
              <span class="booking-option-title">Starters</span>
              <div class="checkbox"> <!-- checkbox -->
                <label>
@@ -243,7 +251,172 @@
      </div>
    </script>
 
+    <script id="template-home" type="text/x-handlebars-template">
+      <section class="welcome">
+        <div class="start">
+          <div class="order-online">
+            <div class="description">
+              <a href="#order" class="home-links">
+                <h2>ORDER ONLINE</h2>
+                <p>Delicious food delivered to your door</p>
+              </a>
+            </div>
+            <img src="images/home/pizza-1.jpg" class="start-image">
+          </div>
+          <div class="book-table">
+            <div class="description">
+              <a href="#booking" class="home-links">
+                <h2>BOOK A TABLE</h2>
+                <p>Book a table for you and your friends</p>
+              </a>
+            </div>
+            <img src="images/home/pizza-2.jpg" class="start-image">
+          </div>
+        </div>
+        <div class="open-hours">
+          <h2>OPENING HOURS</h2>
+          <h4>TUE-SUN, 12PM-12AM</h4>
+        </div>
+
+        <div class="carousel">
+          <div class="carousel-cell">
+            <img src="images/home/pizza-3.jpg" />
+            <div class="opinion">
+              <h3>AMAZING SERVICE!</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Nullam congue sollicitudin turpis, at feugiat nunc vehicula in.
+                Praesent id enim a arcu accumsan.
+              </p>
+              <p>
+                - Aenean Enim
+              </p>
+            </div>
+          </div>
+
+          <div class="carousel-cell">
+            <img src="images/home/pizza-10.jpg" />
+            <div class="opinion">
+              <h3>GREAT PIZZA!</h3>
+              <p>
+                Mauris quis orci vel neque gravida vulputate at non velit. 
+                Sed purus arcu, accumsan nec scelerisque sit amet, hendrerit
+                sit amet sem. Aenean sit amet fermentum est.
+              </p>
+              <p>
+                - Tortor Facilisis
+              </p>
+            </div>
+          </div>
+
+          <div class="carousel-cell">
+            <img src="images/home/pizza-11.jpg" />
+            <div class="opinion">
+              <h3>NICE RESTAURANT!</h3>
+              <p>
+                Aenean scelerisque nisi eget magna vestibulum suscipit sit amet 
+                eget justo. Integer dictum odio eu dictum efficitur.
+                Vestibulum ante ipsum primis in faucibus orci luctus 
+                et ultrices posuere cubilia
+              </p>
+              <p>
+                - Aliquam Tempor
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-wrapper">
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-4.jpg"> 
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-5.jpg">
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-6.jpg">
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-7.jpg">
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-8.jpg">
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="gallery">
+            <div class="gallery-image">
+              <img src="images/home/pizza-9.jpg">
+              <ul class="icons">
+                <li>
+                  <i class="fas fa-heart"></i>
+                </li>
+                <li>
+                  <i class="fas fa-share-alt"></i>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        <div class="media-wrapper">
+          <a href="#" class="media">View more on Instagram</a> 
+        </div>
+
+      </section>
+    </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script src="vendor/range-slider.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>
 </html>
