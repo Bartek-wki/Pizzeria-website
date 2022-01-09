@@ -1,4 +1,4 @@
-import { select, settings, templates, classNames } from '../settings.js';
+import {templates} from '../settings.js';
 
 class Home {
   constructor(element) {
@@ -22,14 +22,15 @@ class Home {
   }
 
   initCarousel() {
-    
     var elem = document.querySelector('.carousel');
+    // eslint-disable-next-line no-undef
     var flkty = new Flickity( elem, {
       // options
       cellAlign: 'left',
       contain: true,
       autoPlay: true,
-});
+    });
+    console.log(flkty);
   }
 
 }

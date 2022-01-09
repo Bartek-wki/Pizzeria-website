@@ -1,4 +1,4 @@
-import BaseWidget from '../Components/BaseWidget.js';
+import BaseWidget from '../components/BaseWidget.js';
 import { utils } from '../utils.js';
 import {select, settings} from '../settings.js';
 
@@ -29,7 +29,7 @@ class DatePicker extends BaseWidget{
         }
       ],
       onChange: function(selectedDates, dateStr) {
-        thisWidget.value = dateStr;
+        thisWidget.setValue(dateStr);
       },
     });
   }
@@ -39,10 +39,6 @@ class DatePicker extends BaseWidget{
 
   isValid(){
     return true;
-  }
-
-  renderValue(){
-
   }
 }
 
