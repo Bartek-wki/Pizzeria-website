@@ -31,6 +31,10 @@
   }
 }
 
+.home-links {
+  text-decoration: none;
+}
+
 .home-links p {
   opacity: 0;
   font-size: 16px;
@@ -153,7 +157,7 @@ h4 {
 
 .icons i {
   z-index: 15;
-  
+
   &:hover {
     color: $color-main;
     cursor: pointer;
