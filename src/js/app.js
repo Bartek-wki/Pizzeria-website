@@ -2,6 +2,8 @@ import { settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
+
 
 const app = {
   initPages: function () {
@@ -10,6 +12,7 @@ const app = {
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    //console.log(this.navLinks);
 
     const idFromHash = window.location.hash.replace('#/', '');
     
@@ -40,6 +43,30 @@ const app = {
         window.location.hash = '#/' + id;
       });
     }
+
+  },
+
+  goToPage: function () {
+    const thisApp = this;
+    console.log('ok!');
+    thisApp.homeLinks = document.querySelectorAll(select.home.links);
+    console.log(thisApp.homeLinks);
+
+    for (let link of thisApp.homeLinks) {
+      link.addEventListener('click', function (event) {
+        const clickedElement = this;
+        event.preventDefault();
+
+        /* get id from href attribute */
+        const id = clickedElement.getAttribute('href').replace('#', '');
+
+        /* run thisApp.activatePage with that id */
+        thisApp.activatePage(id);
+
+        /* chenge URL hash */
+        window.location.hash = '#/' + id;
+      });
+    }
   },
 
   activatePage: function (pageId) {
@@ -57,7 +84,6 @@ const app = {
         link.getAttribute('href') == '#' + pageId
       );
     }
-
   },
 
   initMenu: function () {
@@ -111,6 +137,14 @@ const app = {
     thisApp.booking = new Booking(bookingWrapper);
   },
 
+  initHome: function () {
+    const thisApp = this;
+
+    const homeWrapper = document.querySelector(select.containerOf.home);
+
+    thisApp.home = new Home(homeWrapper);
+  },
+
   init: function(){
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -123,6 +157,8 @@ const app = {
     thisApp.initCart();
     thisApp.initPages();
     thisApp.initBooking();
+    thisApp.initHome();
+    thisApp.goToPage();
   },
 };
 
