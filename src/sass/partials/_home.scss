@@ -16,7 +16,7 @@
   width: 299px;
   height: 120px;
 
-  & a {
+  &a {
     text-decoration: none;
   }
 
@@ -153,6 +153,7 @@ h4 {
 
 .icons i {
   z-index: 15;
+  
   &:hover {
     color: $color-main;
     cursor: pointer;
