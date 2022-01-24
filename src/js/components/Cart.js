@@ -41,7 +41,6 @@ class Cart {
 
     thisCart.dom.productList.addEventListener('updated', function () {
       thisCart.update();
-      console.log(thisCart.product);
     });
 
     thisCart.dom.productList.addEventListener('remove', function () {
@@ -59,7 +58,6 @@ class Cart {
 
     /* generete HTML based on template */
     const generatedHTML = templates.cartProduct(menuProduct);
-    //console.log(generatedHTML);
 
     /* create element using utils.createElementFromHTML */
     const generatedDOM = utils.createDOMFromHTML(generatedHTML);
@@ -67,11 +65,7 @@ class Cart {
     /* add element to menu */
     thisCart.dom.productList.appendChild(generatedDOM);
 
-    console.log('adding product', menuProduct);
-
     thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-
-    console.log(thisCart.products);
 
     thisCart.update();
   }
@@ -88,8 +82,6 @@ class Cart {
     for (let product of thisCart.products) {
       thisCart.totalNumber += product.amount;
       thisCart.subtotalPrice += product.price;
-      console.log(thisCart.totalNumber);
-      console.log(thisCart.subtotalPrice);
     }
 
     thisCart.totalPrice = 0;
@@ -111,17 +103,28 @@ class Cart {
 
   remove(removedProduct) {
     const thisCart = this;
-    console.log(thisCart);
-    console.log(removedProduct);
     const indexOfRemovedProduct = thisCart.products.indexOf(removedProduct);
-    //console.log(indexOfRemovedProduct);
+    // eslint-disable-next-line
     const removedValues = thisCart.products.splice(indexOfRemovedProduct, 1);
-    console.log(removedValues);
 
     removedProduct.dom.wrapper.remove();
 
     thisCart.update();
 
+  }
+
+  emptyCart(cartProducts) {
+    const thisCart = this;
+
+    for (let cartProduct of cartProducts) {
+      cartProduct.dom.wrapper.remove();
+    }
+
+    thisCart.products = [];
+    thisCart.dom.phone.value = '';
+    thisCart.dom.address.value = '';
+
+    thisCart.update();
   }
 
   sendOrder() {
@@ -150,10 +153,15 @@ class Cart {
       body: JSON.stringify(payload),
     };
 
-    fetch(url, options)
-      .then(function () {
-        alert('Zamówienie przyjęte');
-      });
+    if (thisCart.products.length !== 0) {
+      fetch(url, options)
+        .then(function () {
+          alert('Zamówienie przyjęte');
+          thisCart.emptyCart(thisCart.products);
+        });
+    } else {
+      alert('The cart is empty');
+    }
 
   }
 }

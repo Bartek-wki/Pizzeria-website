@@ -48,9 +48,7 @@ const app = {
 
   goToPage: function () {
     const thisApp = this;
-    console.log('ok!');
     thisApp.homeLinks = document.querySelectorAll(select.home.links);
-    console.log(thisApp.homeLinks);
 
     for (let link of thisApp.homeLinks) {
       link.addEventListener('click', function (event) {

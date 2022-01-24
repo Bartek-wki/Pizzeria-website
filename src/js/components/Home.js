@@ -17,20 +17,17 @@ class Home {
 
     thisHome.dom.wrapper = element;
     thisHome.dom.wrapper.innerHTML = generatedHTML;
-
-    console.log(element);
   }
 
   initCarousel() {
     var elem = document.querySelector('.carousel');
-    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line
     var flkty = new Flickity( elem, {
       // options
       cellAlign: 'left',
       contain: true,
       autoPlay: true,
     });
-    console.log(flkty);
   }
 
 }
